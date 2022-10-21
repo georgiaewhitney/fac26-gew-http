@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real world fetch</title>
+  </head>
+  <body>
+
+    <!--Challenge Forms-->
+    <form id="form">
+      <label for="name">Name:</label>
+      <input id="name" name="name" type="text">
+      
+      <label for="number"> Number:</label>
+      <input id="number" name="number" type="number" step="1">
+      <br>
+      <br>
+      <input type="submit">
+    </form>
+
+    <!--Pokemon form-->
+    <form id="poke-form">
+      <label for="pokename">Pokemon Name:</label>
+      <input id="pokename" name="pokename" type="text">
+      <input type="submit" value="Pokedex Activate">
+    </form>
+    <output></output>
+
+    <script>
+      /*
+      // challenge 1
+      // add a fetch call to below URL which always calls 404
+      // add a then() and catch() 
+      // the then() runs even though it's 404
+
+      fetch("https://echo.oliverjam.workers.dev/status/404")
+      .then(console.log)
+      .catch((error) => console.log('error!'))
+
+      //////////////
+
+      // challenge 2
+      // check the response.ok
+      // if not, throw a new error with status property of the response
+      // .then should run
+
+      fetch("https://echo.oliverjam.workers.dev/status/404")
+      .then((response) => {
+        if(!response.ok) {
+          let errorOne = new Error(response.status);
+          throw errorOne;
+        }
+        console.log(response);
+      })
+      .catch(console.error);
+
+      // remember, with the catch() i created a whole new error that took precedence
+
+      /////////////////
+
+  
+
+      // challenge 3
+      // neede help with this one
+      // use fetch to send a POST request to URL
+      // send a JSON body containing an object
+      // use "content-type"
+
+      const obj = {
+        name: 'Georgia'
+      };
+
+      fetch("https://echo.oliverjam.workers.dev/json", {
+        method: "POST",
+        body: JSON.stringify(obj), 
+        headers: {
+          "content-type": "application/json"
+        },
+      })
+      .then((response) => {
+        if (!response.ok) throw new Error(response.status);
+        return response.json();
+      })
+      .then((json) => console.log(json))
+      .catch((error) => console.error(error));
+
+     */
+      ///////////////////
+
+    // query selector challenge
+    // also found tricky
+    // submit to event handler as well as preventDefault()
+    // querySelector to get input value
+    // use fetch to POST the data as JSON to the URL
+    // log server response
+    
+    const myForm = document.querySelector("form");
+
+    form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = document.querySelector("#name").value;
+    const number = document.querySelector("#number").value;
+    const data = { name, number };
+
+    fetch("https://echo.oliverjam.workers.dev/json", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "content-type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(response.status);
+        return response.json();
+      })
+      .then((json) => console.log(json))
+      .catch((error) => console.error(error));
+  });
+
+  
+    
+    ////////////////////
+
+    // new formData() challenge
+    //
+
+    const myFormTwo = document.querySelector("form");
+
+    form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(myFormTwo);
+    const data = Object.fromEntries(formData);
+    
+
+    fetch("https://reqres.in/api/users", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "content-type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(response.status);
+        return response.json();
+      })
+      .then((json) => console.log(json))
+      .catch((error) => console.error(error));
+  });
+
+// console data
+  /*
+  {name: 'hello', number: '99', id: 8008, created: '2022-10-21T16:39:55.768Z'}
+created
+: 
+"2022-10-21T16:39:55.768Z"
+id
+: 
+8008
+name
+: 
+"hello"
+number
+: 
+"99"
+[[Prototype]]
+: 
+Object
+workshop.html:134 
+{name: 'hello', number: '99', id: '513', createdAt: '2022-10-21T16:39:55.861Z'}
+createdAt
+: 
+"2022-10-21T16:39:55.861Z"
+id
+: 
+"513"
+name
+: 
+"hello"
+number
+: 
+"99"
+[[Prototype]]
+: 
+Object
+*/
+
+      const pokeForm = document.getElementById("poke-form");
+      const pokeOutput = document.querySelector("output")
+
+      pokeForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        pokeOutput.innerHTML = "";
+        const pokeFormData = new FormData(pokeForm);
+        const name = pokeFormData.get("pokename");
+      
+        fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+          .then((response) => {
+            if(!response.ok) throw new Error(response.status);
+            return response.json();
+          })
+          .then((pokeData) => {
+            const heading = document.createElement("p");
+            heading.textContent = pokeData.name;
+
+            const image = document.createElement("img");
+            image.src = pokeData.sprites.front_default;
+            image.alt = "";
+
+            pokeOutput.append(heading, image);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.message === "404") {
+              pokeOutput.textContent = `Can't find Pokemon called ${name}`;
+            } else {
+              pokeOutput.textContent = `Something has gone quite wrong...`;
+            }
+          });
+      });
+
+
+      
+    </script>
+  </body>
+</html>

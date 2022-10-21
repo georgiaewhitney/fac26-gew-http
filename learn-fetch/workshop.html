@@ -9,6 +9,48 @@
     <h1>Open the console</h1>
     <script>
 
+      // challenge 1
+      // used fetch to request to PokeAPI
+      // assigned return variable to variable and logged it
+
+      const firstFetch = fetch("https://pokeapi.co/api/v2/pokemon/pikachu");
+      console.log(firstFetch);
+
+      //////////////
+
+      // challenge 2
+      // use .then() to access result of API request
+      // logged it to see object
+
+      const firstPromise = fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+        .then((result) => console.log(result));
+
+      //////////////
+
+      // challenge 3
+      // used response.json() to get the response body
+      // chained another .then() to log the body and see object
+
+      const jsonResponse = fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+        .then((response) => response.json())
+        .then((result) => console.log(result));
+
+      //////////////
+
+      // challenge 4
+      // added a catch() to log the error
+      // url deliberately removed to invoke the catch()
+
+      const errorHandling = fetch()
+        .then((response) => response.json())
+        .then((apiResult) => console.log(apiResult))
+        .catch((error) => console.log('An error has occured!'))
+
+
+      /////////////
+
+      // workshop
+
       
 
     </script>

@@ -47,9 +47,46 @@
         .catch((error) => console.log('An error has occured!'))
 
 
-      /////////////
+      ///////////// ////////////////
 
       // workshop
+
+      // task 1
+      // create a getUser function taking in a username argument
+      // fetch the user's profile
+
+      const getUser = username => {
+        const fetchURL = `https://api.github.com/users/${username}`
+        return fetch(fetchURL)
+          .then((response) => response.json());
+       
+      }
+
+      getUser('rockyrelay').then(console.log).catch('console error');
+
+      // task 2
+      // create a getRepos function that takes profile's user as an arg.
+      // fetch the user using getUser, then getRepos to fetch their repos using repos_url property from user object
+      
+
+      const getRepos = userResponse => {
+        return fetch(userResponse.repos_url)
+          .then((response) => response.json());
+      }
+
+      getUser('rockyrelay')
+        .then(getRepos)
+        .then(console.log)
+        .catch((error) => console.log('An error has occured (again)!'));
+
+        // task 3 bonus
+
+        const promiseRockyrelay = getUser('rockyrelay');
+        const promiseSofer = getUser('sofer');
+
+        Promise.all([promiseRockyrelay, promiseSofer])
+          .then(console.log)
+          .catch((error) => console.log('An error with promiseAll!'))
 
       
 

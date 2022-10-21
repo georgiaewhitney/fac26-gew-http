@@ -16,7 +16,7 @@
 - [x] Learn Fetch & Promises 
       ./learn-fetch
       
-- [ ] Real World Fetch
+- [x] Real World Fetch
       ./real-world-fetch
       
 - [ ] Promise Practice

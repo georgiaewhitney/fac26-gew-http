@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn Fetch & Promises</title>
+  </head>
+  <body>
+    <h1>Open the console</h1>
+    <script>
+
+      // challenge 1
+      // used fetch to request to PokeAPI
+      // assigned return variable to variable and logged it
+
+      const firstFetch = fetch("https://pokeapi.co/api/v2/pokemon/pikachu");
+      console.log(firstFetch);
+
+      //////////////
+
+      // challenge 2
+      // use .then() to access result of API request
+      // logged it to see object
+
+      const firstPromise = fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+        .then((result) => console.log(result));
+
+      //////////////
+
+      // challenge 3
+      // used response.json() to get the response body
+      // chained another .then() to log the body and see object
+
+      const jsonResponse = fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+        .then((response) => response.json())
+        .then((result) => console.log(result));
+
+      //////////////
+
+      // challenge 4
+      // added a catch() to log the error
+      // url deliberately removed to invoke the catch()
+
+      const errorHandling = fetch()
+        .then((response) => response.json())
+        .then((apiResult) => console.log(apiResult))
+        .catch((error) => console.log('An error has occured!'))
+
+
+      ///////////// ////////////////
+
+      // workshop
+
+      // task 1
+      // create a getUser function taking in a username argument
+      // fetch the user's profile
+
+      const getUser = username => {
+        const fetchURL = `https://api.github.com/users/${username}`
+        return fetch(fetchURL)
+          .then((response) => response.json());
+       
+      }
+
+      getUser('rockyrelay').then(console.log).catch('console error');
+
+      // task 2
+      // create a getRepos function that takes profile's user as an arg.
+      // fetch the user using getUser, then getRepos to fetch their repos using repos_url property from user object
+      
+
+      const getRepos = userResponse => {
+        return fetch(userResponse.repos_url)
+          .then((response) => response.json());
+      }
+
+      getUser('rockyrelay')
+        .then(getRepos)
+        .then(console.log)
+        .catch((error) => console.log('An error has occured (again)!'));
+
+        // task 3 bonus
+
+        const promiseRockyrelay = getUser('rockyrelay');
+        const promiseSofer = getUser('sofer');
+
+        Promise.all([promiseRockyrelay, promiseSofer])
+          .then(console.log)
+          .catch((error) => console.log('An error with promiseAll!'))
+
+      
+
+    </script>
+  </body>
+</html>

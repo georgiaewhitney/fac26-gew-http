@@ -11,16 +11,16 @@
 ## Workshops
 
 - [x] Functions, callbacks, & async JavaScript
-      ./functions-callback-async
+      <code>functions-callback-async</code>
       
 - [x] Learn Fetch & Promises 
-      ./learn-fetch
+      <code>learn-fetch</code>
       
 - [x] Real World Fetch
-      ./real-world-fetch
+      <code>real-world-fetch</code>
       
 - [ ] Promise Practice
-      ./promise-practice
+      <code>promise-practice</code>
 
 ---
 
